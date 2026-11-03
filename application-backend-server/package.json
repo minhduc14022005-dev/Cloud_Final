@@ -1,0 +1,17 @@
+{
+  "name": "application-backend-server",
+  "version": "1.0.0",
+  "description": "MyMiniCloud Application Backend Server in Node.js",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mysql2": "^3.9.8",
+    "jsonwebtoken": "^9.0.2",
+    "jwks-rsa": "^3.1.0",
+    "cors": "^2.8.5"
+  }
+}
+

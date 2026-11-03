@@ -1,0 +1,43 @@
+[
+  {
+    "id": 1,
+    "student_id": "21110001",
+    "name": "Võ Huỳnh Minh Đức",
+    "dob": "2003-05-15",
+    "major": "Cloud Computing & DevOps",
+    "gpa": 3.85
+  },
+  {
+    "id": 2,
+    "student_id": "21110002",
+    "name": "Võ Anh Kiệt",
+    "dob": "2003-08-20",
+    "major": "Software Engineering",
+    "gpa": 3.75
+  },
+  {
+    "id": 3,
+    "student_id": "21110003",
+    "name": "Nguyễn Văn An",
+    "dob": "2003-01-10",
+    "major": "Information Security",
+    "gpa": 3.60
+  },
+  {
+    "id": 4,
+    "student_id": "21110004",
+    "name": "Trần Thị Bích",
+    "dob": "2003-11-25",
+    "major": "Data Science",
+    "gpa": 3.90
+  },
+  {
+    "id": 5,
+    "student_id": "21110005",
+    "name": "Lê Hoàng Long",
+    "dob": "2003-03-30",
+    "major": "Network Engineering",
+    "gpa": 3.70
+  }
+]
+
