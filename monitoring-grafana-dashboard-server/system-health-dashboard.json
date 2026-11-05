@@ -1,0 +1,41 @@
+{
+  "overwrite": true,
+  "dashboard": {
+    "uid": "system-health-523h0048",
+    "title": "System Health of 523H0048",
+    "tags": ["myminicloud"],
+    "timezone": "browser",
+    "refresh": "10s",
+    "time": { "from": "now-15m", "to": "now" },
+    "schemaVersion": 39,
+    "panels": [
+      {
+        "id": 1, "type": "timeseries", "title": "CPU Usage (%)",
+        "gridPos": { "x": 0, "y": 0, "w": 12, "h": 9 },
+        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "fieldConfig": { "defaults": { "unit": "percent", "min": 0, "max": 100, "color": { "mode": "fixed", "fixedColor": "blue" }, "custom": { "fillOpacity": 20, "lineWidth": 2 } }, "overrides": [] },
+        "targets": [{ "refId": "A", "expr": "100 - (avg(rate(node_cpu_seconds_total{mode=\"idle\"}[1m])) * 100)", "legendFormat": "CPU" }]
+      },
+      {
+        "id": 2, "type": "timeseries", "title": "RAM Usage (%)",
+        "gridPos": { "x": 12, "y": 0, "w": 12, "h": 9 },
+        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "fieldConfig": { "defaults": { "unit": "percent", "min": 0, "max": 100, "color": { "mode": "fixed", "fixedColor": "green" }, "custom": { "fillOpacity": 20, "lineWidth": 2 } }, "overrides": [] },
+        "targets": [{ "refId": "A", "expr": "(1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100", "legendFormat": "RAM" }]
+      },
+      {
+        "id": 3, "type": "timeseries", "title": "Network Traffic (eth0)",
+        "gridPos": { "x": 0, "y": 9, "w": 24, "h": 9 },
+        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "fieldConfig": { "defaults": { "unit": "Bps", "custom": { "fillOpacity": 15, "lineWidth": 2 } }, "overrides": [
+          { "matcher": { "id": "byName", "options": "Receive" }, "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "orange" } }] },
+          { "matcher": { "id": "byName", "options": "Transmit" }, "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "purple" } }] }
+        ] },
+        "targets": [
+          { "refId": "A", "expr": "rate(node_network_receive_bytes_total{device=\"eth0\"}[1m])", "legendFormat": "Receive" },
+          { "refId": "B", "expr": "rate(node_network_transmit_bytes_total{device=\"eth0\"}[1m])", "legendFormat": "Transmit" }
+        ]
+      }
+    ]
+  }
+}

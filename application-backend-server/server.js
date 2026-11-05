@@ -13,11 +13,14 @@ app.use(cors());
 app.use(express.json());
 
 // Cấu hình Keycloak OIDC
-const ISSUER = process.env.OIDC_ISSUER || 'http://authentication-identity-server:8080/realms/master';
-const AUDIENCE = process.env.OIDC_AUDIENCE || 'myapp';
+// Issuer trong token phụ thuộc địa chỉ người dùng gọi Keycloak (vd localhost:8081),
+// còn container backend phải lấy khóa qua tên nội bộ => tách 2 biến.
+const ISSUER = process.env.OIDC_ISSUER || 'http://localhost:8081/realms/realm_VoAnhKiet';
+const JWKS_URI = process.env.OIDC_JWKS_URI || `${ISSUER}/protocol/openid-connect/certs`;
+const AUDIENCE = process.env.OIDC_AUDIENCE || 'flask-app';
 
 const jwksClient = jwksRsa({
-    jwksUri: `${ISSUER}/protocol/openid-connect/certs`,
+    jwksUri: JWKS_URI,
     cache: true,
     cacheMaxAge: 600000, // 10 phút
     rateLimit: true,

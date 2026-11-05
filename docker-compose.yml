@@ -2,6 +2,10 @@ networks:
   cloud-net:
     name: cloud-net
 
+volumes:
+  keycloak-data:
+  grafana-data:
+
 services:
   # 1. Web Frontend Server 1 (Nginx Static)
   web-frontend-server:
@@ -19,6 +23,9 @@ services:
     build: ./web-frontend-server2
     image: ducvh/myminicloud-web2:v1
     container_name: web-frontend-server2
+    volumes:
+      # Dùng chung blog với server 1, tránh 404 khi gateway round robin sang server 2
+      - ./web-frontend-server/html/blog:/usr/share/nginx/html/blog:ro
     networks:
       - cloud-net
     ports:
@@ -35,8 +42,11 @@ services:
     ports:
       - "8085:8081"
     environment:
-      OIDC_ISSUER: "http://authentication-identity-server:8080/realms/master"
-      OIDC_AUDIENCE: "myapp"
+      # Issuer = địa chỉ người dùng đăng nhập Keycloak (lên EC2 thì đổi localhost thành Public IP)
+      OIDC_ISSUER: "http://localhost:8081/realms/realm_VoAnhKiet"
+      # Backend lấy khóa ký token qua mạng nội bộ cloud-net
+      OIDC_JWKS_URI: "http://authentication-identity-server:8080/realms/realm_VoAnhKiet/protocol/openid-connect/certs"
+      OIDC_AUDIENCE: "flask-app"
       DB_HOST: "relational-database-server"
       DB_USER: "root"
       DB_PASSWORD: "root"
@@ -72,6 +82,8 @@ services:
       KC_HOSTNAME: "localhost"
       KC_HOSTNAME_STRICT: "false"
       KC_HTTP_ENABLED: "true"
+    volumes:
+      - keycloak-data:/opt/keycloak/data   # giữ realm/user/client khi container bị tạo lại
     ports:
       - "8081:8080"
     networks:
@@ -136,6 +148,8 @@ services:
   monitoring-grafana-dashboard-server:
     image: grafana/grafana:latest
     container_name: monitoring-grafana-dashboard-server
+    volumes:
+      - grafana-data:/var/lib/grafana   # giữ dashboard/datasource khi container bị tạo lại
     ports:
       - "3000:3000"
     networks:

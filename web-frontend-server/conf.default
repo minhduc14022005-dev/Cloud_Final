@@ -1,8 +1,21 @@
+# Cache CSS/ảnh để mỗi lần F5 chỉ gửi 1 request (trang HTML) qua load balancer,
+# nhờ vậy Round Robin luân phiên đúng giữa 2 máy.
+map $sent_http_content_type $asset_expires {
+    default epoch;   # HTML: Cache-Control no-cache, luôn hỏi lại server
+    text/css 1h;
+    image/svg+xml 1h;
+    image/png 1h;
+}
+
 server {
     listen 80;
     server_name _;
     root /usr/share/nginx/html;
     index index.html;
+    expires $asset_expires;
+    # 2 trang chủ có cùng kích thước/thời điểm sửa => ETag trùng, trình duyệt nhận 304 và hiện trang cũ của máy kia
+    etag off;
+    if_modified_since off;
 
     location / {
         try_files $uri $uri/ =404;

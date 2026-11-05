@@ -1,29 +1,56 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>MyMiniCloud Blog</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f6f9; }
-        .card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); max-width: 700px; margin: auto; }
-        h1 { color: #1a73e8; }
-        ul { line-height: 2; }
-        a { color: #1a73e8; text-decoration: none; font-weight: bold; }
-        a:hover { text-decoration: underline; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog – MyMiniCloud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/blog/site.css">
 </head>
 <body>
-    <div class="card">
-        <h1>📝 MyMiniCloud Blog</h1>
-        <p>Danh sách các bài viết chia sẻ về Điện toán đám mây & DevOps:</p>
-        <ul>
-            <li><a href="/blog/blog1.html">Bài 1: Giới thiệu hệ thống MyMiniCloud với 9 Server</a></li>
-            <li><a href="/blog/blog2.html">Bài 2: Kiến trúc Nginx Reverse Proxy & Load Balancer</a></li>
-            <li><a href="/blog/blog3.html">Bài 3: Giám sát toàn diện với Prometheus và Grafana</a></li>
-        </ul>
-        <hr>
-        <p>👈 <a href="/">Quay lại Trang Chủ (Back to Home)</a></p>
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="/">MyMiniCloud</a>
+      <nav aria-label="Điều hướng chính">
+        <a href="/#dich-vu">Dịch vụ</a>
+        <a href="/blog/" aria-current="page">Blog</a>
+      </nav>
     </div>
+  </header>
+
+  <main class="wrap" style="padding-top:56px;padding-bottom:64px">
+    <h1 style="font-size:clamp(32px,5vw,48px);letter-spacing:-.03em;line-height:1.1;margin:0 0 10px;font-weight:800">Blog</h1>
+    <p class="lede">Ghi chép của nhóm về cách MyMiniCloud được dựng lên, từ cổng vào đến hệ thống giám sát.</p>
+    <ol class="posts">
+      <li class="post">
+        <a href="/blog/blog1.html" tabindex="-1" aria-hidden="true"><img src="/blog/img/blog1-architecture.svg" alt=""></a>
+        <div>
+          <h3><a href="/blog/blog1.html">Bài 1: Giới thiệu hệ thống MyMiniCloud</a></h3>
+          <p>Hệ thống gồm những máy chủ nào, mỗi máy làm gì và chúng nói chuyện với nhau qua mạng <code>cloud-net</code> ra sao.</p>
+        </div>
+      </li>
+      <li class="post">
+        <a href="/blog/blog2.html" tabindex="-1" aria-hidden="true"><img src="/blog/img/blog2-loadbalancer.svg" alt=""></a>
+        <div>
+          <h3><a href="/blog/blog2.html">Bài 2: Nginx Reverse Proxy và Load Balancer</a></h3>
+          <p>Một cổng vào duy nhất ở cổng 80 điều hướng theo đường dẫn và chia tải đều cho 2 máy chủ web.</p>
+        </div>
+      </li>
+      <li class="post">
+        <a href="/blog/blog3.html" tabindex="-1" aria-hidden="true"><img src="/blog/img/blog3-monitoring.svg" alt=""></a>
+        <div>
+          <h3><a href="/blog/blog3.html">Bài 3: Giám sát với Prometheus và Grafana</a></h3>
+          <p>Thu thập số liệu CPU, RAM, mạng mỗi 15 giây và vẽ thành biểu đồ theo thời gian thực.</p>
+        </div>
+      </li>
+    </ol>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">Đồ án cuối kỳ Cloud Computing – Võ Huỳnh Minh Đức, Võ Anh Kiệt</div>
+  </footer>
 </body>
 </html>
-

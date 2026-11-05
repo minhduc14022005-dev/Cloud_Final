@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 360" font-family="Arial, sans-serif" font-size="13">
+  <rect width="700" height="360" rx="12" fill="#eef3fb"/>
+  <text x="350" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1a3d7c">MyMiniCloud – 10 container trên mạng cloud-net</text>
+  <rect x="290" y="48" width="120" height="34" rx="17" fill="#ffffff" stroke="#1a73e8"/>
+  <text x="350" y="70" text-anchor="middle" fill="#1a3d7c">👤 Người dùng</text>
+  <line x1="350" y1="82" x2="350" y2="104" stroke="#1a73e8" stroke-width="2"/>
+  <rect x="230" y="104" width="240" height="40" rx="8" fill="#1a73e8"/>
+  <text x="350" y="129" text-anchor="middle" fill="#fff" font-weight="bold">API Gateway / Load Balancer :80</text>
+  <rect x="20" y="160" width="660" height="185" rx="10" fill="none" stroke="#7aa2e3" stroke-dasharray="6 4"/>
+  <text x="34" y="180" fill="#5a7bb5" font-size="12">Docker network: cloud-net</text>
+  <g fill="#ffffff" stroke="#1a73e8">
+    <rect x="40" y="195" width="140" height="56" rx="8"/>
+    <rect x="200" y="195" width="140" height="56" rx="8"/>
+    <rect x="360" y="195" width="140" height="56" rx="8"/>
+    <rect x="520" y="195" width="140" height="56" rx="8"/>
+    <rect x="40" y="270" width="140" height="56" rx="8"/>
+    <rect x="200" y="270" width="140" height="56" rx="8"/>
+    <rect x="360" y="270" width="140" height="56" rx="8"/>
+    <rect x="520" y="270" width="140" height="56" rx="8"/>
+  </g>
+  <g text-anchor="middle" fill="#1a3d7c">
+    <text x="110" y="219" font-weight="bold">Web x2</text><text x="110" y="238" font-size="11">Nginx :8080 / :8082</text>
+    <text x="270" y="219" font-weight="bold">App Backend</text><text x="270" y="238" font-size="11">Node.js :8085</text>
+    <text x="430" y="219" font-weight="bold">Database</text><text x="430" y="238" font-size="11">MySQL :3306</text>
+    <text x="590" y="219" font-weight="bold">Identity</text><text x="590" y="238" font-size="11">Keycloak :8081</text>
+    <text x="110" y="294" font-weight="bold">Object Storage</text><text x="110" y="313" font-size="11">MinIO :9000/9001</text>
+    <text x="270" y="294" font-weight="bold">DNS</text><text x="270" y="313" font-size="11">Bind9 :1053</text>
+    <text x="430" y="294" font-weight="bold">Monitoring</text><text x="430" y="313" font-size="11">Prometheus + Exporter</text>
+    <text x="590" y="294" font-weight="bold">Dashboard</text><text x="590" y="313" font-size="11">Grafana :3000</text>
+  </g>
+</svg>

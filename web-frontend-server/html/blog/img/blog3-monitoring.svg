@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 320" font-family="Arial, sans-serif" font-size="13">
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#e65100"/></marker></defs>
+  <rect width="700" height="320" rx="12" fill="#fff5ec"/>
+  <text x="350" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#8a3200">Luồng giám sát: Exporter → Prometheus → Grafana</text>
+  <g fill="#fff" stroke="#e65100">
+    <rect x="30" y="70" width="160" height="50" rx="8"/><rect x="30" y="140" width="160" height="50" rx="8"/>
+    <rect x="270" y="95" width="160" height="70" rx="10"/>
+  </g>
+  <g text-anchor="middle" fill="#8a3200">
+    <text x="110" y="92" font-weight="bold">Node Exporter</text><text x="110" y="110" font-size="11">CPU · RAM · Network</text>
+    <text x="110" y="162" font-weight="bold">Web container</text><text x="110" y="180" font-size="11">web-frontend-server:80</text>
+    <text x="350" y="125" font-weight="bold">Prometheus :9090</text><text x="350" y="145" font-size="11">scrape mỗi 15 giây</text>
+  </g>
+  <g stroke="#e65100" stroke-width="2" marker-end="url(#a)"><line x1="190" y1="95" x2="268" y2="120"/><line x1="190" y1="165" x2="268" y2="140"/><line x1="430" y1="130" x2="478" y2="130"/></g>
+  <rect x="480" y="60" width="195" height="150" rx="10" fill="#fff" stroke="#e65100"/>
+  <text x="577" y="82" text-anchor="middle" font-weight="bold" fill="#8a3200">Grafana :3000</text>
+  <polyline points="495,130 520,112 545,120 570,96 595,108 620,90 660,100" fill="none" stroke="#1a73e8" stroke-width="2"/>
+  <text x="497" y="146" font-size="10" fill="#1a73e8">CPU</text>
+  <polyline points="495,170 525,166 555,160 585,163 615,156 660,158" fill="none" stroke="#2e7d32" stroke-width="2"/>
+  <text x="497" y="184" font-size="10" fill="#2e7d32">RAM</text>
+  <polyline points="495,200 515,194 535,198 555,186 575,196 600,182 630,192 660,188" fill="none" stroke="#e65100" stroke-width="2"/>
+  <text x="620" y="207" font-size="10" fill="#e65100">Network</text>
+  <text x="350" y="270" text-anchor="middle" font-size="12" fill="#a0522d">PromQL ví dụ: 100 - avg(rate(node_cpu_seconds_total{mode="idle"}[1m]))*100</text>
+</svg>

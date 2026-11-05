@@ -1,25 +1,47 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>Bài 1: Giới thiệu hệ thống MyMiniCloud</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f6f9; line-height: 1.6; }
-        .card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); max-width: 700px; margin: auto; }
-        h1 { color: #1a73e8; }
-        a { color: #1a73e8; text-decoration: none; font-weight: bold; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bài 1: Giới thiệu hệ thống MyMiniCloud với 9 server – MyMiniCloud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/blog/site.css">
 </head>
 <body>
-    <div class="card">
-        <h1>Bài 1: Giới thiệu hệ thống MyMiniCloud với 9 Server</h1>
-        <p><i>Tác giả: Nhóm Đồ Án Cloud Computing</i></p>
-        <hr>
-        <p>Hệ thống <b>MyMiniCloud</b> mô phỏng một nền tảng Cloud thu nhỏ với đầy đủ các thành phần hạ tầng cốt lõi: Web Server, Backend API, Database, Identity & Auth, Object Storage (S3-like), DNS, Monitoring và API Gateway.</p>
-        <p>Mỗi dịch vụ được cô lập trong container Docker riêng biệt và giao tiếp an toàn thông qua mạng bridge nội bộ <code>cloud-net</code>.</p>
-        <hr>
-        <p>👈 <a href="/blog/">Quay lại Danh sách Blog</a> | 🏠 <a href="/">Trang chủ</a></p>
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="/">MyMiniCloud</a>
+      <nav aria-label="Điều hướng chính">
+        <a href="/#dich-vu">Dịch vụ</a>
+        <a href="/blog/" aria-current="page">Blog</a>
+      </nav>
     </div>
+  </header>
+
+  <main>
+    <article class="article">
+      <p class="crumb"><a href="/blog/">Tất cả bài viết</a></p>
+      <h1>Bài 1: Giới thiệu hệ thống MyMiniCloud với 9 server</h1>
+      <p class="byline">Nhóm đồ án Cloud Computing</p>
+      <figure>
+        <img src="/blog/img/blog1-architecture.svg" alt="Sơ đồ 10 container của MyMiniCloud trên mạng cloud-net">
+        <figcaption>Sơ đồ 10 container của MyMiniCloud trên mạng cloud-net</figcaption>
+      </figure>
+      <div class="body">
+        <p>Hệ thống <b>MyMiniCloud</b> mô phỏng một nền tảng Cloud thu nhỏ với đầy đủ các thành phần hạ tầng cốt lõi: Web Server, Backend API, Database, Identity &amp; Auth, Object Storage (S3-like), DNS, Monitoring và API Gateway.</p>
+        <p>Mỗi dịch vụ được cô lập trong container Docker riêng biệt và giao tiếp an toàn thông qua mạng bridge nội bộ <code>cloud-net</code>.</p>
+      </div>
+    </article>
+    <nav class="pager" aria-label="Bài viết khác">
+      <a class="next" href="/blog/blog2.html"><small>Bài tiếp</small>Bài 2: Kiến trúc Nginx Reverse Proxy và Load Balancer</a>
+    </nav>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">Đồ án cuối kỳ Cloud Computing – Võ Huỳnh Minh Đức, Võ Anh Kiệt</div>
+  </footer>
 </body>
 </html>
-

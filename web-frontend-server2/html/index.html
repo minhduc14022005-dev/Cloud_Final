@@ -1,25 +1,98 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>MyMiniCloud - Home (Server 2)</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background-color: #e6f4ea; }
-        .card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); max-width: 700px; margin: auto; }
-        h1 { color: #137333; }
-        a { color: #137333; text-decoration: none; font-weight: bold; }
-        a:hover { text-decoration: underline; }
-        .tag { background: #ceead6; color: #137333; padding: 4px 8px; border-radius: 4px; font-size: 14px; font-weight: bold; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MyMiniCloud – Máy chủ web 2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/blog/site.css">
 </head>
-<body>
-    <div class="card">
-        <h1>☁️ MyMiniCloud - Home</h1>
-        <p><span class="tag">Server Instance: 2 (Load Balanced)</span></p>
-        <hr>
-        <p>Chào mừng bạn đến với cụm web server thứ 2 được cân bằng tải qua <b>Nginx Load Balancer (Round Robin)</b>.</p>
-        <p>👉 <a href="/blog/">Xem Blog Cá Nhân</a></p>
+<body style="--accent: var(--node2)">
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="/">MyMiniCloud</a>
+      <nav aria-label="Điều hướng chính">
+        <a href="#dich-vu">Dịch vụ</a>
+        <a href="/blog/">Blog</a>
+      </nav>
     </div>
+  </header>
+
+  <main>
+    <div class="wrap hero">
+      <div>
+        <h1>Yêu cầu này do <span class="node">máy chủ web 2</span> xử&nbsp;lý.</h1>
+        <p id="lb-note">Bạn đang vào MyMiniCloud qua cổng Nginx. Mỗi lần tải lại trang, Nginx chuyển yêu cầu sang máy chủ kế tiếp theo vòng tròn (Round Robin).</p>
+        <p id="lb-hint">Nhấn <kbd>F5</kbd> để thấy đèn chuyển sang máy kia.</p>
+      </div>
+      <figure style="margin:0">
+        <div class="rack" role="img" aria-label="Tủ rack có 2 máy chủ web, máy chủ web 2 đang sáng đèn">
+          <div class="unit blank"><span class="vent"></span></div>
+          <div class="unit"><span class="led"></span><b>web-1</b><span class="vent"></span><span class="state">đang phục vụ</span></div>
+          <div class="unit on"><span class="led"></span><b>web-2</b><span class="vent"></span><span class="state">đang phục vụ</span></div>
+          <div class="unit blank"><span class="vent"></span></div>
+        </div>
+        <figcaption class="rack-caption">Cụm web gồm 2 container Nginx phía sau API Gateway</figcaption>
+      </figure>
+    </div>
+
+    <section class="section" id="dich-vu">
+      <div class="wrap">
+        <h2>Các dịch vụ trong hệ thống</h2>
+        <p class="lede">MyMiniCloud gồm 11 container chạy chung mạng nội bộ <code>cloud-net</code>. Bấm vào liên kết để mở từng dịch vụ.</p>
+        <table class="svc">
+          <thead><tr><th>Dịch vụ</th><th>Dùng để</th><th>Cổng</th><th>Mở</th></tr></thead>
+          <tbody>
+            <tr><td>API Gateway</td><td>Cổng vào chung, chia tải giữa 2 máy chủ web</td><td class="port">80</td><td class="go"><a href="/">Trang chủ</a></td></tr>
+            <tr><td>Web ×2 (Nginx)</td><td>Trang web tĩnh và blog</td><td class="port">8080, 8082</td><td class="go"><a data-port="8080" href="/">Máy 1</a> · <a data-port="8082" href="/">Máy 2</a></td></tr>
+            <tr><td>Backend (Node.js)</td><td>API trả danh sách sinh viên từ file JSON và MySQL</td><td class="port">8085</td><td class="go"><a data-port="8085" data-path="/students-db" href="/api/students-db">Xem API</a></td></tr>
+            <tr><td>MySQL 8</td><td>Lưu bảng sinh viên trong <code>studentdb</code></td><td class="port">3306</td><td class="go"><span class="none">Không có web</span></td></tr>
+            <tr><td>Keycloak</td><td>Đăng nhập và cấp token OIDC</td><td class="port">8081</td><td class="go"><a data-port="8081" href="/auth/">Bảng quản trị</a></td></tr>
+            <tr><td>MinIO</td><td>Lưu ảnh và tài liệu kiểu Amazon S3</td><td class="port">9000, 9001</td><td class="go"><a data-port="9001" href="#">Console</a></td></tr>
+            <tr><td>Bind9 DNS</td><td>Phân giải tên miền nội bộ <code>cloud.local</code></td><td class="port">1053/udp</td><td class="go"><span class="none">Không có web</span></td></tr>
+            <tr><td>Prometheus</td><td>Thu thập số liệu CPU, RAM, mạng</td><td class="port">9090</td><td class="go"><a data-port="9090" data-path="/targets" href="#">Targets</a></td></tr>
+            <tr><td>Node Exporter</td><td>Đo tài nguyên của máy chủ</td><td class="port">9100</td><td class="go"><a data-port="9100" data-path="/metrics" href="#">Metrics</a></td></tr>
+            <tr><td>Grafana</td><td>Biểu đồ giám sát hệ thống</td><td class="port">3000</td><td class="go"><a data-port="3000" href="#">Dashboard</a></td></tr>
+          </tbody>
+        </table>
+        <ul class="try" aria-label="Thử API qua gateway">
+          <li><a href="/api/hello">GET /api/hello</a></li>
+          <li><a href="/student/">GET /student/</a></li>
+          <li><a href="/api/students-db">GET /api/students-db</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <h2>Blog</h2>
+        <p class="lede">Ghi chép của nhóm trong quá trình xây dựng hệ thống.</p>
+        <ol class="posts compact">
+          <li><a href="/blog/blog1.html"><span>Bài 1</span>Giới thiệu hệ thống MyMiniCloud</a></li>
+          <li><a href="/blog/blog2.html"><span>Bài 2</span>Nginx Reverse Proxy và Load Balancer</a></li>
+          <li><a href="/blog/blog3.html"><span>Bài 3</span>Giám sát với Prometheus và Grafana</a></li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">Đồ án cuối kỳ Cloud Computing – Võ Huỳnh Minh Đức, Võ Anh Kiệt</div>
+  </footer>
+
+  <script>
+    // Link tới cổng riêng của từng dịch vụ, dùng đúng hostname đang truy cập (localhost hoặc IP EC2)
+    document.querySelectorAll('a[data-port]').forEach(function (a) {
+      a.href = location.protocol + '//' + location.hostname + ':' + a.dataset.port + (a.dataset.path || '/');
+    });
+    // Truy cập thẳng cổng 8080/8082 thì không đi qua load balancer
+    if (location.port === '8080' || location.port === '8082') {
+      document.getElementById('lb-note').textContent = 'Bạn đang mở thẳng máy chủ này qua cổng ' + location.port + ', nên yêu cầu không đi qua load balancer.';
+      document.getElementById('lb-hint').innerHTML = 'Mở <a href="' + location.protocol + '//' + location.hostname + '/">cổng 80</a> để xem Nginx chia tải giữa 2 máy.';
+    }
+  </script>
 </body>
 </html>
-
