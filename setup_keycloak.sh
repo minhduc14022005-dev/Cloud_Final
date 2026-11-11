@@ -40,3 +40,4 @@ else
 fi
 
 echo "==> Hoàn tất! Keycloak đã sẵn sàng trên AWS EC2."
+

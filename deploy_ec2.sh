@@ -66,3 +66,4 @@ echo "  5. Keycloak Admin Console:      http://$PUBLIC_IP:8081/ (admin / admin)"
 echo "  6. MinIO Storage Console:       http://$PUBLIC_IP:9001/ (minioadmin / minioadmin)"
 echo "  7. Grafana Monitoring:          http://$PUBLIC_IP:3000/ (admin / admin)"
 echo "=========================================================="
+
