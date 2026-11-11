@@ -46,7 +46,7 @@
         <table class="svc">
           <thead><tr><th>Dịch vụ</th><th>Dùng để</th><th>Cổng</th><th>Mở</th></tr></thead>
           <tbody>
-            <tr><td>API Gateway</td><td>Cổng vào chung, chia tải giữa 2 máy chủ web</td><td class="port">80</td><td class="go"><a href="/">Trang chủ</a></td></tr>
+            <tr><td>API Gateway</td><td>Cổng vào chung, chia tải giữa 2 máy chủ web</td><td class="port">80</td><td class="go"><a data-port="80" href="/">Trang chủ</a></td></tr>
             <tr><td>Web ×2 (Nginx)</td><td>Trang web tĩnh và blog</td><td class="port">8080, 8082</td><td class="go"><a data-port="8080" href="/">Máy 1</a> · <a data-port="8082" href="/">Máy 2</a></td></tr>
             <tr><td>Backend (Node.js)</td><td>API trả danh sách sinh viên từ file JSON và MySQL</td><td class="port">8085</td><td class="go"><a data-port="8085" data-path="/students-db" href="/api/students-db">Xem API</a></td></tr>
             <tr><td>MySQL 8</td><td>Lưu bảng sinh viên trong <code>studentdb</code></td><td class="port">3306</td><td class="go"><span class="none">Không có web</span></td></tr>
@@ -86,12 +86,20 @@
   <script>
     // Link tới cổng riêng của từng dịch vụ, dùng đúng hostname đang truy cập (localhost hoặc IP EC2)
     document.querySelectorAll('a[data-port]').forEach(function (a) {
-      a.href = location.protocol + '//' + location.hostname + ':' + a.dataset.port + (a.dataset.path || '/');
+      var portPart = (a.dataset.port === '80' || !a.dataset.port) ? '' : (':' + a.dataset.port);
+      a.href = location.protocol + '//' + location.hostname + portPart + (a.dataset.path || '/');
     });
-    // Truy cập thẳng cổng 8080/8082 thì không đi qua load balancer
+    // Nếu đang mở cổng riêng 8080/8082, các link trang chủ và API chuyển hướng chuẩn về cổng 80 (Gateway)
     if (location.port === '8080' || location.port === '8082') {
+      var gatewayRoot = location.protocol + '//' + location.hostname + '/';
+      document.querySelectorAll('a.brand, a[href="/"]').forEach(function(a) {
+        a.href = gatewayRoot;
+      });
+      document.querySelectorAll('.try a').forEach(function(a) {
+        a.href = location.protocol + '//' + location.hostname + a.getAttribute('href');
+      });
       document.getElementById('lb-note').textContent = 'Bạn đang mở thẳng máy chủ này qua cổng ' + location.port + ', nên yêu cầu không đi qua load balancer.';
-      document.getElementById('lb-hint').innerHTML = 'Mở <a href="' + location.protocol + '//' + location.hostname + '/">cổng 80</a> để xem Nginx chia tải giữa 2 máy.';
+      document.getElementById('lb-hint').innerHTML = 'Mở <a href="' + gatewayRoot + '">cổng 80</a> để xem Nginx chia tải giữa 2 máy.';
     }
   </script>
 </body>
