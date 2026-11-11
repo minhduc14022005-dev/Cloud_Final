@@ -24,7 +24,7 @@
         "targets": [{ "refId": "A", "expr": "(1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100", "legendFormat": "RAM" }]
       },
       {
-        "id": 3, "type": "timeseries", "title": "Network Traffic (eth0)",
+        "id": 3, "type": "timeseries", "title": "Network Traffic (Network)",
         "gridPos": { "x": 0, "y": 9, "w": 24, "h": 9 },
         "datasource": { "type": "prometheus", "uid": "prometheus" },
         "fieldConfig": { "defaults": { "unit": "Bps", "custom": { "fillOpacity": 15, "lineWidth": 2 } }, "overrides": [
@@ -32,8 +32,8 @@
           { "matcher": { "id": "byName", "options": "Transmit" }, "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "purple" } }] }
         ] },
         "targets": [
-          { "refId": "A", "expr": "rate(node_network_receive_bytes_total{device=\"eth0\"}[1m])", "legendFormat": "Receive" },
-          { "refId": "B", "expr": "rate(node_network_transmit_bytes_total{device=\"eth0\"}[1m])", "legendFormat": "Transmit" }
+          { "refId": "A", "expr": "sum(rate(node_network_receive_bytes_total{device=~\"eth0|enX0\"}[1m]))", "legendFormat": "Receive" },
+          { "refId": "B", "expr": "sum(rate(node_network_transmit_bytes_total{device=~\"eth0|enX0\"}[1m]))", "legendFormat": "Transmit" }
         ]
       }
     ]
