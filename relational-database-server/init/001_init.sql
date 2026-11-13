@@ -1,5 +1,8 @@
+-- Client init mặc định dùng latin1, thiếu dòng này tên tiếng Việt bị lưu sai mã (mojibake)
+SET NAMES utf8mb4;
+
 -- 1. Database cơ bản minicloud
-CREATE DATABASE IF NOT EXISTS minicloud;
+CREATE DATABASE IF NOT EXISTS minicloud CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE minicloud;
 
 CREATE TABLE IF NOT EXISTS notes (
@@ -11,7 +14,7 @@ CREATE TABLE IF NOT EXISTS notes (
 INSERT INTO notes (title) VALUES ('Hello from MySQL!');
 
 -- 2. Database mở rộng 3: studentdb
-CREATE DATABASE IF NOT EXISTS studentdb;
+CREATE DATABASE IF NOT EXISTS studentdb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE studentdb;
 
 CREATE TABLE IF NOT EXISTS students (

@@ -1,19 +1,26 @@
 networks:
   cloud-net:
     name: cloud-net
+    ipam:
+      config:
+        - subnet: 10.10.10.0/24
+# IP tĩnh khớp bảng IP trong báo cáo và zone cloud.local; alias ngắn (web, db, keycloak...) để chạy y nguyên lệnh ping/mysql trong đề
 
 volumes:
   keycloak-data:
   grafana-data:
+  mysql-data:
 
 services:
   # 1. Web Frontend Server 1 (Nginx Static)
   web-frontend-server:
     build: ./web-frontend-server
-    image: ducvh/myminicloud-web:v1
+    image: minhduc14022005/myminicloud-web:v1
     container_name: web-frontend-server
     networks:
-      - cloud-net
+      cloud-net:
+        ipv4_address: 10.10.10.10
+        aliases: [web]
     ports:
       - "8080:80"
     restart: unless-stopped
@@ -21,13 +28,15 @@ services:
   # 1b. Web Frontend Server 2 (Phục vụ Load Balancer Round Robin)
   web-frontend-server2:
     build: ./web-frontend-server2
-    image: ducvh/myminicloud-web2:v1
+    image: minhduc14022005/myminicloud-web2:v1
     container_name: web-frontend-server2
     volumes:
       # Dùng chung blog với server 1, tránh 404 khi gateway round robin sang server 2
       - ./web-frontend-server/html/blog:/usr/share/nginx/html/blog:ro
     networks:
-      - cloud-net
+      cloud-net:
+        ipv4_address: 10.10.10.11
+        aliases: [web2]
     ports:
       - "8082:80"
     restart: unless-stopped
@@ -35,17 +44,19 @@ services:
   # 2. Application Backend Server (Node.js Express REST API)
   application-backend-server:
     build: ./application-backend-server
-    image: ducvh/myminicloud-app:v1
+    image: minhduc14022005/myminicloud-app:v1
     container_name: application-backend-server
     networks:
-      - cloud-net
+      cloud-net:
+        ipv4_address: 10.10.10.20
+        aliases: [app-server]
     ports:
       - "8085:8081"
     environment:
       # Issuer = địa chỉ người dùng đăng nhập Keycloak (lên EC2 thì đổi localhost thành Public IP)
-      OIDC_ISSUER: "http://localhost:8081/realms/realm_VoAnhKiet"
+      OIDC_ISSUER: "http://localhost:8081/realms/realm_523H0048"
       # Backend lấy khóa ký token qua mạng nội bộ cloud-net
-      OIDC_JWKS_URI: "http://authentication-identity-server:8080/realms/realm_VoAnhKiet/protocol/openid-connect/certs"
+      OIDC_JWKS_URI: "http://authentication-identity-server:8080/realms/realm_523H0048/protocol/openid-connect/certs"
       OIDC_AUDIENCE: "flask-app"
       DB_HOST: "relational-database-server"
       DB_USER: "root"
@@ -65,15 +76,18 @@ services:
       MYSQL_DATABASE: minicloud
     volumes:
       - ./relational-database-server/init:/docker-entrypoint-initdb.d:ro
+      - mysql-data:/var/lib/mysql   # giữ dữ liệu khi container bị tạo lại (init chỉ chạy khi volume trống)
     ports:
       - "3306:3306"
     networks:
-      - cloud-net
+      cloud-net:
+        ipv4_address: 10.10.10.50
+        aliases: [db]
     restart: unless-stopped
 
   # 4. Authentication & Identity Server (Keycloak OIDC)
   authentication-identity-server:
-    image: quay.io/keycloak/keycloak:latest
+    image: quay.io/keycloak/keycloak:26.8.1
     container_name: authentication-identity-server
     command: ["start-dev"]
     environment:
@@ -87,12 +101,14 @@ services:
     ports:
       - "8081:8080"
     networks:
-      - cloud-net
+      cloud-net:
+        ipv4_address: 10.10.10.40
+        aliases: [keycloak]
     restart: unless-stopped
 
   # 5. Object Storage Server (MinIO)
   object-storage-server:
-    image: elestio/minio:latest
+    image: elestio/minio@sha256:25348a257f1ece1b192f25f6cd9854618fa86422ac87b494b5d4e629c556d4bd   # repo chỉ có tag latest nên ghim theo digest (minio RELEASE.2025-09-07T16-13-09Z)
     container_name: object-storage-server
     command: ["server", "/data", "--console-address", ":9001"]
     environment:
@@ -104,7 +120,9 @@ services:
       - "9000:9000"
       - "9001:9001"
     networks:
-      - cloud-net
+      cloud-net:
+        ipv4_address: 10.10.10.30
+        aliases: [minio]
     restart: unless-stopped
 
   # 6. Internal DNS Server (Bind9)
@@ -119,41 +137,49 @@ services:
       - ./internal-dns-server/named.conf.local:/etc/bind/named.conf.local:ro
       - ./internal-dns-server/db.cloud.local:/etc/bind/db.cloud.local:ro
     networks:
-      - cloud-net
+      cloud-net:
+        ipv4_address: 10.10.10.53
+        aliases: [dns-server]
     restart: unless-stopped
 
   # 7. Monitoring Node Exporter (Host/Metrics)
   monitoring-node-exporter-server:
-    image: prom/node-exporter:latest
+    image: prom/node-exporter:v1.12.1
     container_name: monitoring-node-exporter-server
     ports:
       - "9100:9100"
     networks:
-      - cloud-net
+      cloud-net:
+        ipv4_address: 10.10.10.71
+        aliases: [node-exporter]
     restart: unless-stopped
 
   # 8. Monitoring Prometheus Server
   monitoring-prometheus-server:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v3.15.1
     container_name: monitoring-prometheus-server
     ports:
       - "9090:9090"
     volumes:
       - ./monitoring-prometheus-server/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     networks:
-      - cloud-net
+      cloud-net:
+        ipv4_address: 10.10.10.70
+        aliases: [prometheus]
     restart: unless-stopped
 
   # 9. Monitoring Grafana Dashboard Server
   monitoring-grafana-dashboard-server:
-    image: grafana/grafana:latest
+    image: grafana/grafana:13.3.0
     container_name: monitoring-grafana-dashboard-server
     volumes:
       - grafana-data:/var/lib/grafana   # giữ dashboard/datasource khi container bị tạo lại
     ports:
       - "3000:3000"
     networks:
-      - cloud-net
+      cloud-net:
+        ipv4_address: 10.10.10.72
+        aliases: [grafana]
     restart: unless-stopped
 
   # 10. API Gateway & Reverse Proxy / Load Balancer (Nginx)
@@ -170,6 +196,8 @@ services:
     volumes:
       - ./api-gateway-proxy-server/nginx.conf:/etc/nginx/nginx.conf:ro
     networks:
-      - cloud-net
+      cloud-net:
+        ipv4_address: 10.10.10.80
+        aliases: [proxy]
     restart: unless-stopped
 

@@ -15,7 +15,7 @@ app.use(express.json());
 // Cấu hình Keycloak OIDC
 // Issuer trong token phụ thuộc địa chỉ người dùng gọi Keycloak (vd localhost:8081),
 // còn container backend phải lấy khóa qua tên nội bộ => tách 2 biến.
-const ISSUER = process.env.OIDC_ISSUER || 'http://localhost:8081/realms/realm_VoAnhKiet';
+const ISSUER = process.env.OIDC_ISSUER || 'http://localhost:8081/realms/realm_523H0048';
 const JWKS_URI = process.env.OIDC_JWKS_URI || `${ISSUER}/protocol/openid-connect/certs`;
 const AUDIENCE = process.env.OIDC_AUDIENCE || 'flask-app';
 
@@ -70,6 +70,7 @@ app.get('/secure', (req, res) => {
         getKey,
         {
             issuer: ISSUER,
+            audience: AUDIENCE,
             algorithms: ['RS256']
         },
         (err, decoded) => {

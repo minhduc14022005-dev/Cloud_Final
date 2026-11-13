@@ -41,7 +41,7 @@ fi
 # 4. Cập nhật Public IP vào docker-compose.yml
 echo "==> Đang cấu hình Public IP ($PUBLIC_IP) cho Keycloak và Backend..."
 sed -i "s|KC_HOSTNAME: \"localhost\"|KC_HOSTNAME: \"$PUBLIC_IP\"|g" docker-compose.yml
-sed -i "s|OIDC_ISSUER: \"http://localhost:8081/realms/realm_VoAnhKiet\"|OIDC_ISSUER: \"http://$PUBLIC_IP:8081/realms/realm_VoAnhKiet\"|g" docker-compose.yml
+sed -i "s|OIDC_ISSUER: \"http://localhost:8081/realms/realm_523H0048\"|OIDC_ISSUER: \"http://$PUBLIC_IP:8081/realms/realm_523H0048\"|g" docker-compose.yml
 
 # 5. Khởi động toàn bộ 10 container
 echo "==> Đang build và khởi động toàn bộ container..."
