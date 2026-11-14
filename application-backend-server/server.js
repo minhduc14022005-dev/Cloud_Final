@@ -93,6 +93,7 @@ app.get('/students-db', async (req, res) => {
         user: process.env.DB_USER || 'root',
         password: process.env.DB_PASSWORD || 'root',
         database: process.env.DB_NAME || 'studentdb',
+        charset: 'utf8mb4',
         connectTimeout: 4000
     };
 

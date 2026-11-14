@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "student_id": "21110001",
+    "student_id": "523H0014",
     "name": "Võ Huỳnh Minh Đức",
     "dob": "2003-05-15",
     "major": "Cloud Computing & DevOps",
@@ -9,7 +9,7 @@
   },
   {
     "id": 2,
-    "student_id": "21110002",
+    "student_id": "523H0048",
     "name": "Võ Anh Kiệt",
     "dob": "2003-08-20",
     "major": "Software Engineering",
@@ -17,7 +17,7 @@
   },
   {
     "id": 3,
-    "student_id": "21110003",
+    "student_id": "523H0001",
     "name": "Nguyễn Văn An",
     "dob": "2003-01-10",
     "major": "Information Security",
@@ -25,7 +25,7 @@
   },
   {
     "id": 4,
-    "student_id": "21110004",
+    "student_id": "523H0002",
     "name": "Trần Thị Bích",
     "dob": "2003-11-25",
     "major": "Data Science",
@@ -33,11 +33,10 @@
   },
   {
     "id": 5,
-    "student_id": "21110005",
+    "student_id": "523H0003",
     "name": "Lê Hoàng Long",
     "dob": "2003-03-30",
     "major": "Network Engineering",
     "gpa": 3.70
   }
 ]
-
